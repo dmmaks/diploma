@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
-@RequestMapping("/api/techniques-mitigations")
+@RequestMapping("/api/techniquesMitigations")
 public class TechniqueMitigationController {
     private final TechniqueMitigationService techniqueMitigationService;
 
