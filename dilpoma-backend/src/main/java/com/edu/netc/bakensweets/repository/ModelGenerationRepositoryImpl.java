@@ -1,5 +1,6 @@
 package com.edu.netc.bakensweets.repository;
 
+import com.edu.netc.bakensweets.model.ChecklistEntry;
 import com.edu.netc.bakensweets.model.Device;
 import com.edu.netc.bakensweets.model.GeneratedModelEntry;
 import com.edu.netc.bakensweets.repository.interfaces.ModelGenerationRepository;
@@ -8,7 +9,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements ModelGenerationRepository {
@@ -18,6 +21,13 @@ public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements
 
     @Value("${sql.modelGeneration.createChecklist}")
     private String createChecklistRequest;
+
+    @Value("${sql.modelGeneration.createChecklistEntriesBeginning}")
+    private String createChecklistEntriesBeginning;
+
+    @Value("${sql.modelGeneration.createChecklistEntriesPart}")
+    private String createChecklistEntriesPart;
+
 
     public ModelGenerationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -40,5 +50,19 @@ public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements
     @Override
     public long createChecklist(String name, long deviceId, long accountId) {
         return jdbcTemplate.queryForObject(createChecklistRequest, Long.class, name, deviceId, accountId);
+    }
+
+    @Override
+    public void createChecklistEntries(Collection<ChecklistEntry> entries) {
+        StringBuilder requestBuilder = new StringBuilder(createChecklistEntriesBeginning);
+        List<Long> params = new ArrayList<>();
+        for (ChecklistEntry entry : entries) {
+            requestBuilder.append(createChecklistEntriesPart);
+            params.add(entry.getChecklistId());
+            params.add(entry.getTechniqueId());
+            params.add(entry.getMitigationId());
+        }
+        requestBuilder.deleteCharAt(requestBuilder.length() - 1);
+        jdbcTemplate.update(requestBuilder.toString(), params.toArray());
     }
 }

@@ -3,6 +3,8 @@ package com.edu.netc.bakensweets.service;
 import com.edu.netc.bakensweets.dto.GeneratedModelEntryDTO;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.GeneratedModelEntryMapper;
+import com.edu.netc.bakensweets.mapper.GeneratedModelToChecklistMapper;
+import com.edu.netc.bakensweets.model.ChecklistEntry;
 import com.edu.netc.bakensweets.model.Credentials;
 import com.edu.netc.bakensweets.model.Device;
 import com.edu.netc.bakensweets.model.GeneratedModelEntry;
@@ -16,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -24,6 +28,7 @@ public class ModelGenerationServiceImpl implements ModelGenerationService {
     private final ModelGenerationRepository modelGenerationRepository;
     private final DeviceRepository deviceRepository;
     private final GeneratedModelEntryMapper generatedModelEntryMapper;
+    private final GeneratedModelToChecklistMapper generatedModelToChecklistMapper;
     private final CredentialsRepository credentialsRepository;
 
     @Override
@@ -34,7 +39,14 @@ public class ModelGenerationServiceImpl implements ModelGenerationService {
             Device device = deviceRepository.findById(deviceId);
             device.setChipset("%" + device.getChipset() + "%");
             Collection<GeneratedModelEntry> generatedModel = modelGenerationRepository.getGeneratedModel(device);
-            modelGenerationRepository.createChecklist("Чек-лист для " + device.getName(), deviceId, account.getId());
+            long checklistId = modelGenerationRepository.createChecklist("Чек-лист для " + device.getName(), deviceId, account.getId());
+            List<ChecklistEntry> checklistEntries = new ArrayList<>();
+            for (GeneratedModelEntry entry : generatedModel) {
+                ChecklistEntry checklistEntry = generatedModelToChecklistMapper.generatedModelEntryToChecklistEntry(entry);
+                checklistEntry.setChecklistId(checklistId);
+                checklistEntries.add(checklistEntry);
+            }
+            modelGenerationRepository.createChecklistEntries(checklistEntries);
             return generatedModelEntryMapper.generatedModelEntryPageToDtoCollection(generatedModel);
         } catch (EmptyResultDataAccessException ex) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Device with id %s not found.", deviceId));
