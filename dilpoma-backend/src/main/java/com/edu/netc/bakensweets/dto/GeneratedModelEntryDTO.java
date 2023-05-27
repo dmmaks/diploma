@@ -17,9 +17,15 @@ public class GeneratedModelEntryDTO {
     @NotNull(message = "techniqueName is mandatory")
     @NotBlank(message = "techniqueName is mandatory")
     private String techniqueName;
+    @NotNull(message = "techniqueDescription is mandatory")
+    @NotBlank(message = "techniqueDescription is mandatory")
+    private String techniqueDescription;
     @Pattern(regexp = "[0-9]+", message = "mitigationId should be numeric")
     private long mitigationId;
     @NotNull(message = "mitigationName is mandatory")
     @NotBlank(message = "mitigationName is mandatory")
     private String mitigationName;
+    @NotNull(message = "mitigationDescription is mandatory")
+    @NotBlank(message = "mitigationDescription is mandatory")
+    private String mitigationDescription;
 }

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class GeneratedModelEntry {
     private long techniqueId;
     private String techniqueName;
+    private String techniqueDescription;
     private long mitigationId;
     private String mitigationName;
+    private String mitigationDescription;
 }

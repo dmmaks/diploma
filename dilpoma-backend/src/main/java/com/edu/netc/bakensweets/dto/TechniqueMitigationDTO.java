@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TechniqueDTO {
+public class TechniqueMitigationDTO {
     @Pattern(regexp = "[0-9]+", message = "id should be numeric")
     private long id;
     @NotNull(message = "name is mandatory")

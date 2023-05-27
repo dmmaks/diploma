@@ -1,7 +1,6 @@
 package com.edu.netc.bakensweets.repository;
 
 import com.edu.netc.bakensweets.model.Device;
-import com.edu.netc.bakensweets.model.Kitchenware;
 import com.edu.netc.bakensweets.repository.interfaces.DeviceRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mitigation {
+public class TechniqueMitigation {
+
     private long id;
     private String name;
     private String description;
