@@ -8,4 +8,5 @@ import java.util.Collection;
 
 public interface ModelGenerationRepository {
     Collection<GeneratedModelEntry> getGeneratedModel(Device device);
+    long createChecklist(String name, long deviceId, long accountId);
 }

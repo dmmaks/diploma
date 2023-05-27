@@ -16,6 +16,9 @@ public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements
     @Value("${sql.modelGeneration.generate}")
     private String generateModelRequest;
 
+    @Value("${sql.modelGeneration.createChecklist}")
+    private String createChecklistRequest;
+
     public ModelGenerationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
@@ -32,5 +35,10 @@ public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements
                 device.getFingerprintScanner(),
                 device.getFaceRecognition()
         );
+    }
+
+    @Override
+    public long createChecklist(String name, long deviceId, long accountId) {
+        return jdbcTemplate.queryForObject(createChecklistRequest, Long.class, name, deviceId, accountId);
     }
 }

@@ -1,7 +1,6 @@
 package com.edu.netc.bakensweets.controller;
 
 import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
-import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 import com.edu.netc.bakensweets.service.interfaces.TechniqueMitigationService;
 import io.swagger.annotations.ApiResponse;

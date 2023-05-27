@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 @RestController
 @Validated
 @RequestMapping("/api/modelGeneration")
@@ -26,7 +28,7 @@ public class ModelGenerationController {
     @GetMapping(value = "/generate/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad request")})
-    public GeneratedModelDTO getGeneratedModelByDeviceId (@PathVariable long id) {
-        return new GeneratedModelDTO(modelGenerationService.getGeneratedModel(id));
+    public GeneratedModelDTO getGeneratedModelByDeviceId (@PathVariable long id, Principal principal) {
+        return new GeneratedModelDTO(modelGenerationService.getGeneratedModel(principal.getName(), id));
     }
 }

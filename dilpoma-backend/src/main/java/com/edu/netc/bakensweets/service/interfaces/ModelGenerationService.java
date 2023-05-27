@@ -6,5 +6,5 @@ import com.edu.netc.bakensweets.dto.GeneratedModelEntryDTO;
 import java.util.Collection;
 
 public interface ModelGenerationService {
-    Collection<GeneratedModelEntryDTO> getGeneratedModel(long deviceId);
+    Collection<GeneratedModelEntryDTO> getGeneratedModel(String email, long deviceId);
 }
