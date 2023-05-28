@@ -3,6 +3,7 @@ package com.edu.netc.bakensweets.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeviceDTO {
-    @Pattern(regexp = "[0-9]+", message = "id should be numeric")
+    @Id
     private long id;
     @NotNull(message = "name is mandatory")
     @NotBlank(message = "name is mandatory")

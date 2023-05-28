@@ -9,4 +9,10 @@ public interface DeviceService {
 
     DeviceDTO getDeviceById(Long id);
 
+    DeviceDTO createDevice(DeviceDTO deviceDTO);
+
+    DeviceDTO updateDevice(DeviceDTO deviceDTO, long id);
+
+    void deleteDevice(long id);
+
 }

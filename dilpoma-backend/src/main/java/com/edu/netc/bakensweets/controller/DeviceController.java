@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @RestController
@@ -34,12 +35,38 @@ public class DeviceController {
         return deviceService.getFilteredDevices(name, pageSize, order, currentPage);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
     @GetMapping(value = "/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Something went wrong"),
             @ApiResponse(code = 404, message = "Item not found")})
     public DeviceDTO getDeviceById(@PathVariable long id) {
         return deviceService.getDeviceById(id);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Device has been added"),
+            @ApiResponse(code = 400, message = "Something went wrong")})
+    public DeviceDTO createDevice(@RequestBody @Valid DeviceDTO deviceDTO) {
+        return deviceService.createDevice(deviceDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PutMapping(value = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Update successful"),
+            @ApiResponse(code = 400, message = "Something went wrong"),
+            @ApiResponse(code = 422, message = "Parameter(s) is/are invalid"),
+            @ApiResponse(code = 404, message = "Item not found")})
+    public DeviceDTO updateDevice(@PathVariable long id, @RequestBody @Valid DeviceDTO deviceDTO) {
+        return deviceService.updateDevice(deviceDTO, id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
+    @DeleteMapping(value = "/{id}")
+    public void deleteDevice(@PathVariable long id) {
+        deviceService.deleteDevice(id);
     }
 }

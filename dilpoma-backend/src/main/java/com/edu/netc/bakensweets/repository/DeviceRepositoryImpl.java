@@ -21,23 +21,36 @@ public class DeviceRepositoryImpl extends BaseJdbcRepository implements DeviceRe
     @Value("${sql.device.countFiltered}")
     private String countFilteredDevicesRequest;
 
+    @Value("${sql.device.deleteDevice}")
+    private String deleteDeviceRequest;
+
+    @Value("${sql.device.createDevice}")
+    private String createDeviceRequest;
+
+    @Value("${sql.device.updateDevice}")
+    private String updateDeviceRequest;
+
+
     public DeviceRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
 
     @Override
     public long create(Device device) {
-        return 0;
+        return jdbcTemplate.queryForObject(createDeviceRequest, Long.class, device.getName(), device.getOs(), device.getOsMinVersion(),
+                device.getOsMaxVersion(), device.getChipset(), device.getFingerprintScanner(), device.getFaceRecognition());
     }
 
     @Override
     public boolean update(Device device) {
-        return false;
+        return this.jdbcTemplate.update(updateDeviceRequest, device.getName(), device.getOs(), device.getOsMinVersion(),
+                device.getOsMaxVersion(), device.getChipset(), device.getFingerprintScanner(), device.getFaceRecognition(),
+                device.getId()) != 0;
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        return this.jdbcTemplate.update(deleteDeviceRequest, id) != 0;
     }
 
     @Override
