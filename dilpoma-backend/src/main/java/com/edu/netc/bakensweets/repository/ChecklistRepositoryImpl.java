@@ -2,7 +2,6 @@ package com.edu.netc.bakensweets.repository;
 
 import com.edu.netc.bakensweets.model.Checklist;
 import com.edu.netc.bakensweets.model.ChecklistEntry;
-import com.edu.netc.bakensweets.model.Kitchenware;
 import com.edu.netc.bakensweets.repository.interfaces.ChecklistRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,7 +23,13 @@ public class ChecklistRepositoryImpl extends BaseJdbcRepository implements Check
     private String updateIsCheckedRequest;
 
     @Value("${sql.checklist.findUserChecklists}")
-    private String findUserChecklists;
+    private String findUserChecklistsRequest;
+
+    @Value("${sql.checklist.deleteChecklist}")
+    private String deleteChecklistRequest;
+
+    @Value("${sql.checklist.updateChecklist}")
+    private String updateChecklist;
 
     public ChecklistRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -48,8 +53,18 @@ public class ChecklistRepositoryImpl extends BaseJdbcRepository implements Check
     }
 
     @Override
+    public boolean updateChecklist(String checklistName, long checklistEntryId, long accountId) {
+        return jdbcTemplate.update(updateChecklist, checklistName, checklistEntryId, accountId) != 0;
+    }
+
+    @Override
+    public boolean deleteById (long id, long account_id) {
+        return this.jdbcTemplate.update(deleteChecklistRequest, id, account_id) != 0;
+    }
+
+    @Override
     public Collection<Checklist> findUserChecklists(String searchRequest, long accountId) {
         return jdbcTemplate.query(
-                findUserChecklists, new BeanPropertyRowMapper<>(Checklist.class), accountId, searchRequest);
+                findUserChecklistsRequest, new BeanPropertyRowMapper<>(Checklist.class), accountId, searchRequest);
     }
 }

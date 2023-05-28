@@ -46,4 +46,20 @@ public class ChecklistController {
     public Collection<ChecklistDTO> getUserChecklists (@RequestParam(value = "searchRequest", defaultValue = "") String searchRequest, Principal principal) {
         return checklistService.getUserChecklists(principal.getName(), searchRequest);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_USER', 'ROLE_ADMIN')")
+    @DeleteMapping(value = "/{id}")
+    public void deleteChecklistById(@PathVariable long id, Principal principal) {
+        checklistService.deleteChecklistById(principal.getName(), id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_USER', 'ROLE_ADMIN')")
+    @PutMapping(value = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request")})
+    public void updateChecklist(@PathVariable long id,
+                                @RequestParam(value = "checklistName") String checklistName,
+                                Principal principal) {
+        checklistService.updateChecklist(principal.getName(), id, checklistName);
+    }
 }

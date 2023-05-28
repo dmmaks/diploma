@@ -11,6 +11,7 @@ import com.edu.netc.bakensweets.repository.interfaces.ChecklistRepository;
 import com.edu.netc.bakensweets.repository.interfaces.CredentialsRepository;
 import com.edu.netc.bakensweets.service.interfaces.ChecklistService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,27 @@ public class ChecklistServiceImpl implements ChecklistService {
         Collection<Checklist> checklists = checklistRepository.findUserChecklists(searchRequest, account.getId());
         Collection<ChecklistDTO> checklistDTOs = checklistMapper.checklistCollectionToDTOCollection(checklists);
         return checklistDTOs;
+    }
+
+    @Override
+    @Transactional
+    public void updateChecklist(String email, long checklistId, String checklistName) {
+        Credentials account = credentialsRepository.findByEmail(email);
+        boolean updated = checklistRepository.updateChecklist(checklistName, checklistId, account.getId());
+        if (!updated) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Checklist with id %s not found.", checklistId));
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteChecklistById(String email, long checklistId) {
+        try {
+            Credentials account = credentialsRepository.findByEmail(email);
+            checklistRepository.deleteById(checklistId, account.getId());
+        } catch (DataAccessException e) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Checklist with id %s not found.", checklistId));
+        }
     }
 
 }

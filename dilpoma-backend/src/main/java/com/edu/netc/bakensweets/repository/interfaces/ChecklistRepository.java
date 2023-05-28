@@ -13,4 +13,8 @@ public interface ChecklistRepository {
     boolean updateIsChecked(long checklistEntryId, boolean isChecked, long accountId);
 
     Collection<Checklist> findUserChecklists(String searchRequest, long accountId);
+
+    boolean updateChecklist(String checklistName, long checklistEntryId, long accountId);
+
+    boolean deleteById (long id, long account_id);
 }
