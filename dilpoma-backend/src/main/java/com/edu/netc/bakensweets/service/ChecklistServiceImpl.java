@@ -1,7 +1,6 @@
 package com.edu.netc.bakensweets.service;
 
 import com.edu.netc.bakensweets.dto.ChecklistDTO;
-import com.edu.netc.bakensweets.dto.DeviceDTO;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.ChecklistMapper;
 import com.edu.netc.bakensweets.model.CheckListEntryDTO;
@@ -39,6 +38,16 @@ public class ChecklistServiceImpl implements ChecklistService {
             return checklistDTO;
         } catch (EmptyResultDataAccessException ex) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Checklist with id %s not found.", checklistId));
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateIsChecked(String email, long checklistEntryId, boolean isChecked) {
+        Credentials account = credentialsRepository.findByEmail(email);
+        boolean updated = checklistRepository.updateIsChecked(checklistEntryId, isChecked, account.getId());
+        if (!updated) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Checklist entry with id %s not found.", checklistEntryId));
         }
     }
 

@@ -4,4 +4,6 @@ import com.edu.netc.bakensweets.dto.ChecklistDTO;
 
 public interface ChecklistService {
     ChecklistDTO getChecklistById(String email, long checklistId);
+
+    void updateIsChecked(String email, long checklistEntryId, boolean isChecked);
 }

@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -29,5 +26,15 @@ public class ChecklistController {
             @ApiResponse(code = 400, message = "Bad request")})
     public ChecklistDTO getGeneratedModelByDeviceId (@PathVariable long id, Principal principal) {
         return checklistService.getChecklistById(principal.getName(), id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_USER', 'ROLE_ADMIN')")
+    @PutMapping(value = "/checklistEntries/changeIsChecked/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request")})
+    public void updateIsChecklistEntryChecked (@PathVariable long id,
+                                               @RequestParam(value = "isChecked", defaultValue = "true", required = true) boolean isChecked,
+                                               Principal principal) {
+        checklistService.updateIsChecked(principal.getName(), id, isChecked);
     }
 }
