@@ -1,6 +1,5 @@
 package com.edu.netc.bakensweets.mapper;
 
-import com.edu.netc.bakensweets.dto.GeneratedModelEntryDTO;
 import com.edu.netc.bakensweets.model.ChecklistEntry;
 import com.edu.netc.bakensweets.model.GeneratedModelEntry;
 import org.mapstruct.Mapper;

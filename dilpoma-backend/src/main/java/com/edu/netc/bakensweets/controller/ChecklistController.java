@@ -1,7 +1,7 @@
 package com.edu.netc.bakensweets.controller;
 
-import com.edu.netc.bakensweets.dto.GeneratedModelDTO;
-import com.edu.netc.bakensweets.service.interfaces.ModelGenerationService;
+import com.edu.netc.bakensweets.dto.ChecklistDTO;
+import com.edu.netc.bakensweets.service.interfaces.ChecklistService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,19 +15,19 @@ import java.security.Principal;
 
 @RestController
 @Validated
-@RequestMapping("/api/modelGeneration")
-public class ModelGenerationController {
-    private final ModelGenerationService modelGenerationService;
+@RequestMapping("/api/checklists")
+public class ChecklistController {
+    private final ChecklistService checklistService;
 
-    public ModelGenerationController(ModelGenerationService modelGenerationService) {
-        this.modelGenerationService = modelGenerationService;
+    public ChecklistController(ChecklistService checklistService) {
+        this.checklistService = checklistService;
     }
 
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_USER', 'ROLE_ADMIN')")
-    @GetMapping(value = "/generate/{id}")
+    @GetMapping(value = "/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad request")})
-    public GeneratedModelDTO getGeneratedModelByDeviceId (@PathVariable long id, Principal principal) {
-        return new GeneratedModelDTO(modelGenerationService.getGeneratedModel(principal.getName(), id));
+    public ChecklistDTO getGeneratedModelByDeviceId (@PathVariable long id, Principal principal) {
+        return checklistService.getChecklistById(principal.getName(), id);
     }
 }
