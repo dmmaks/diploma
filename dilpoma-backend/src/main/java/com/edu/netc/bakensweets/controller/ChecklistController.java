@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collection;
 
 @RestController
 @Validated
@@ -24,7 +25,7 @@ public class ChecklistController {
     @GetMapping(value = "/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Bad request")})
-    public ChecklistDTO getGeneratedModelByDeviceId (@PathVariable long id, Principal principal) {
+    public ChecklistDTO getChecklistById (@PathVariable long id, Principal principal) {
         return checklistService.getChecklistById(principal.getName(), id);
     }
 
@@ -36,5 +37,13 @@ public class ChecklistController {
                                                @RequestParam(value = "isChecked", defaultValue = "true", required = true) boolean isChecked,
                                                Principal principal) {
         checklistService.updateIsChecked(principal.getName(), id, isChecked);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR', 'ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request")})
+    public Collection<ChecklistDTO> getUserChecklists (@RequestParam(value = "searchRequest", defaultValue = "") String searchRequest, Principal principal) {
+        return checklistService.getUserChecklists(principal.getName(), searchRequest);
     }
 }

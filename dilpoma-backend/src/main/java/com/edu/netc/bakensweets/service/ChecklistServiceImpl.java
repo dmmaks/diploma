@@ -3,7 +3,7 @@ package com.edu.netc.bakensweets.service;
 import com.edu.netc.bakensweets.dto.ChecklistDTO;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.ChecklistMapper;
-import com.edu.netc.bakensweets.model.CheckListEntryDTO;
+import com.edu.netc.bakensweets.model.ChecklistEntryDTO;
 import com.edu.netc.bakensweets.model.Checklist;
 import com.edu.netc.bakensweets.model.ChecklistEntry;
 import com.edu.netc.bakensweets.model.Credentials;
@@ -32,7 +32,7 @@ public class ChecklistServiceImpl implements ChecklistService {
             Credentials account = credentialsRepository.findByEmail(email);
             Checklist checklist = checklistRepository.findChecklistById(checklistId, account.getId());
             Collection<ChecklistEntry> entries = checklistRepository.findChecklistEntriesByChecklistId(checklistId);
-            Collection<CheckListEntryDTO> entryDTOs = checklistMapper.checklistEntryCollectionToDTOCollection(entries);
+            Collection<ChecklistEntryDTO> entryDTOs = checklistMapper.checklistEntryCollectionToDTOCollection(entries);
             ChecklistDTO checklistDTO = checklistMapper.checklistToChecklistDTO(checklist);
             checklistDTO.setEntries(entryDTOs);
             return checklistDTO;
@@ -49,6 +49,15 @@ public class ChecklistServiceImpl implements ChecklistService {
         if (!updated) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Checklist entry with id %s not found.", checklistEntryId));
         }
+    }
+
+    @Override
+    public Collection<ChecklistDTO> getUserChecklists(String email, String searchRequest) {
+        searchRequest = "%" + searchRequest + "%";
+        Credentials account = credentialsRepository.findByEmail(email);
+        Collection<Checklist> checklists = checklistRepository.findUserChecklists(searchRequest, account.getId());
+        Collection<ChecklistDTO> checklistDTOs = checklistMapper.checklistCollectionToDTOCollection(checklists);
+        return checklistDTOs;
     }
 
 }

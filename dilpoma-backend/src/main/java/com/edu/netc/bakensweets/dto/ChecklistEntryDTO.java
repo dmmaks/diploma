@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckListEntryDTO {
+public class ChecklistEntryDTO {
     @Pattern(regexp = "[0-9]+", message = "id should be numeric")
     private long id;
     @Pattern(regexp = "[0-9]+", message = "checklistId should be numeric")

@@ -23,6 +23,9 @@ public class ChecklistRepositoryImpl extends BaseJdbcRepository implements Check
     @Value("${sql.checklist.updateIsChecked}")
     private String updateIsCheckedRequest;
 
+    @Value("${sql.checklist.findUserChecklists}")
+    private String findUserChecklists;
+
     public ChecklistRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
@@ -42,5 +45,11 @@ public class ChecklistRepositoryImpl extends BaseJdbcRepository implements Check
     @Override
     public boolean updateIsChecked(long checklistEntryId, boolean isChecked, long accountId) {
         return jdbcTemplate.update(updateIsCheckedRequest, isChecked, checklistEntryId, accountId) != 0;
+    }
+
+    @Override
+    public Collection<Checklist> findUserChecklists(String searchRequest, long accountId) {
+        return jdbcTemplate.query(
+                findUserChecklists, new BeanPropertyRowMapper<>(Checklist.class), accountId, searchRequest);
     }
 }

@@ -1,7 +1,6 @@
 package com.edu.netc.bakensweets.dto;
 
-import com.edu.netc.bakensweets.model.CheckListEntryDTO;
-import com.edu.netc.bakensweets.model.ChecklistEntry;
+import com.edu.netc.bakensweets.model.ChecklistEntryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +22,5 @@ public class ChecklistDTO {
     @NotNull(message = "deviceName is mandatory")
     @NotBlank(message = "deviceName is mandatory")
     private String deviceName;
-    private Collection<CheckListEntryDTO> entries;
+    private Collection<ChecklistEntryDTO> entries;
 }
