@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class Checklist {
     private long id;
     private String name;
-    private long deviceId;
+    private String deviceName;
     private long accountId;
 }

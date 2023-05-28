@@ -20,7 +20,8 @@ public class ChecklistDTO {
     @NotNull(message = "description is mandatory")
     @NotBlank(message = "description is mandatory")
     private String name;
-    @Pattern(regexp = "[0-9]+", message = "id should be numeric")
-    private long deviceId;
+    @NotNull(message = "deviceName is mandatory")
+    @NotBlank(message = "deviceName is mandatory")
+    private String deviceName;
     private Collection<CheckListEntryDTO> entries;
 }
