@@ -40,7 +40,9 @@ public class ModelGenerationRepositoryImpl extends BaseJdbcRepository implements
                 new BeanPropertyRowMapper<>(GeneratedModelEntry.class),
                 device.getOs(),
                 device.getOs() + " " + device.getOsMinVersion(),
+                device.getOs(),
                 device.getOs() + " " + device.getOsMaxVersion(),
+                device.getOs(),
                 device.getChipset(),
                 device.getFingerprintScanner(),
                 device.getFaceRecognition()
