@@ -1,6 +1,8 @@
 package com.edu.netc.bakensweets.repository;
 
+import com.edu.netc.bakensweets.dto.DevicePredefinedValuesDTO;
 import com.edu.netc.bakensweets.model.Device;
+import com.edu.netc.bakensweets.model.DevicePredefinedValues;
 import com.edu.netc.bakensweets.repository.interfaces.DeviceRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -30,6 +32,15 @@ public class DeviceRepositoryImpl extends BaseJdbcRepository implements DeviceRe
     @Value("${sql.device.updateDevice}")
     private String updateDeviceRequest;
 
+    @Value("${sql.device.getOSes}")
+    private String osPredefinedValuesRequest;
+
+    @Value("${sql.device.getFaceRecognitionTypes}")
+    private String faceRecognitionPredefinedValuesRequest;
+
+    @Value("${sql.device.getFingeprintSensorTypes}")
+    private String fingerprintSensorPredefinedValuesRequest;
+
 
     public DeviceRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -37,6 +48,12 @@ public class DeviceRepositoryImpl extends BaseJdbcRepository implements DeviceRe
 
     @Override
     public long create(Device device) {
+        if (device.getFaceRecognition().isEmpty()) {
+            device.setFaceRecognition(null);
+        }
+        if (device.getFingerprintScanner().isEmpty()) {
+            device.setFingerprintScanner(null);
+        }
         return jdbcTemplate.queryForObject(createDeviceRequest, Long.class, device.getName(), device.getOs(), device.getOsMinVersion(),
                 device.getOsMaxVersion(), device.getChipset(), device.getFingerprintScanner(), device.getFaceRecognition());
     }
@@ -71,5 +88,16 @@ public class DeviceRepositoryImpl extends BaseJdbcRepository implements DeviceRe
     @Override
     public int countFilteredDevices(String name) {
         return jdbcTemplate.queryForObject(countFilteredDevicesRequest, Integer.class, name);
+    }
+
+    @Override
+    public DevicePredefinedValues getDevicePredefinedValues() {
+        Collection<String> osCollection = jdbcTemplate.queryForList(
+                osPredefinedValuesRequest, String.class);
+        Collection<String> fingerprintSensorCollection = jdbcTemplate.queryForList(
+                fingerprintSensorPredefinedValuesRequest, String.class);
+        Collection<String> faceRecognitionCollection = jdbcTemplate.queryForList(
+                faceRecognitionPredefinedValuesRequest, String.class);
+        return new DevicePredefinedValues(osCollection, fingerprintSensorCollection, faceRecognitionCollection);
     }
 }

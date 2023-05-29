@@ -1,7 +1,9 @@
 package com.edu.netc.bakensweets.mapper;
 
 import com.edu.netc.bakensweets.dto.DeviceDTO;
+import com.edu.netc.bakensweets.dto.DevicePredefinedValuesDTO;
 import com.edu.netc.bakensweets.model.Device;
+import com.edu.netc.bakensweets.model.DevicePredefinedValues;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -46,4 +48,11 @@ public interface DeviceMapper {
             @Mapping(target = "faceRecognition", source = "devicePage.faceRecognition")
     })
     Collection<DeviceDTO> devicePageToDtoCollection (Collection<Device> devicePage);
+
+    @Mappings({
+            @Mapping(target="operatingSystems", source="predefinedValues.operatingSystems"),
+            @Mapping(target="fingerprintSensorTypes", source="predefinedValues.fingerprintSensorTypes"),
+            @Mapping(target = "faceRecognitionTypes", source = "predefinedValues.faceRecognitionTypes")
+    })
+    DevicePredefinedValuesDTO devicePredefinedValuesToDTO(DevicePredefinedValues predefinedValues);
 }

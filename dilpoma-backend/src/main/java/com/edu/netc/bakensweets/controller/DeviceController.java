@@ -1,6 +1,7 @@
 package com.edu.netc.bakensweets.controller;
 
 import com.edu.netc.bakensweets.dto.DeviceDTO;
+import com.edu.netc.bakensweets.dto.DevicePredefinedValuesDTO;
 import com.edu.netc.bakensweets.dto.KitchenwareDTO;
 import com.edu.netc.bakensweets.dto.PaginationDTO;
 import com.edu.netc.bakensweets.service.interfaces.DeviceService;
@@ -68,5 +69,13 @@ public class DeviceController {
     @DeleteMapping(value = "/{id}")
     public void deleteDevice(@PathVariable long id) {
         deviceService.deleteDevice(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
+    @GetMapping(value = "/predefinedValues")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Bad request")})
+    public DevicePredefinedValuesDTO getDevicePredefinedValues() {
+        return deviceService.getDevicePredefinedValues();
     }
 }

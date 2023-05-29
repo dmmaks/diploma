@@ -1,6 +1,7 @@
 package com.edu.netc.bakensweets.service.interfaces;
 
 import com.edu.netc.bakensweets.dto.DeviceDTO;
+import com.edu.netc.bakensweets.dto.DevicePredefinedValuesDTO;
 import com.edu.netc.bakensweets.dto.PaginationDTO;
 
 public interface DeviceService {
@@ -14,5 +15,7 @@ public interface DeviceService {
     DeviceDTO updateDevice(DeviceDTO deviceDTO, long id);
 
     void deleteDevice(long id);
+
+    DevicePredefinedValuesDTO getDevicePredefinedValues();
 
 }

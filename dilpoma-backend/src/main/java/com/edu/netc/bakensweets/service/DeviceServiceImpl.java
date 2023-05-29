@@ -1,6 +1,7 @@
 package com.edu.netc.bakensweets.service;
 
 import com.edu.netc.bakensweets.dto.DeviceDTO;
+import com.edu.netc.bakensweets.dto.DevicePredefinedValuesDTO;
 import com.edu.netc.bakensweets.dto.PaginationDTO;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.DeviceMapper;
@@ -68,5 +69,10 @@ public class DeviceServiceImpl implements DeviceService {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Device with id %s not found.", id));
         }
         return deviceDTO;
+    }
+
+    @Override
+    public DevicePredefinedValuesDTO getDevicePredefinedValues() {
+        return deviceMapper.devicePredefinedValuesToDTO(deviceRepository.getDevicePredefinedValues());
     }
 }
