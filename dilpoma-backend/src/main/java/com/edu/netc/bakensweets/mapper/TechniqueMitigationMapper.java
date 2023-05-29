@@ -1,8 +1,7 @@
 package com.edu.netc.bakensweets.mapper;
 
-import com.edu.netc.bakensweets.dto.GeneratedModelEntryDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
-import com.edu.netc.bakensweets.model.GeneratedModelEntry;
+import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,9 +27,16 @@ public interface TechniqueMitigationMapper {
     TechniqueMitigationDTO techniqueMitigationToTechniqueMitigationDTO(TechniqueMitigation techniqueMitigation);
 
     @Mappings({
+            @Mapping(target="id", source="techniqueMitigation.id"),
+            @Mapping(target="name", source="techniqueMitigation.name"),
+            @Mapping(target="description", source="techniqueMitigation.description")
+    })
+    TechniqueMitigationWithLinksDTO techniqueMitigationToTechniqueMitigationWithLinksDTO(TechniqueMitigation techniqueMitigation);
+
+    @Mappings({
             @Mapping(target="id", source="techniqueMitigations.id"),
             @Mapping(target="name", source="techniqueMitigations.name"),
             @Mapping(target="description", source="techniqueMitigations.description")
     })
-    Collection<TechniqueMitigationDTO> techniqueMitigationPageToDtoCollection (Collection<TechniqueMitigation> techniqueMitigations);
+    Collection<TechniqueMitigationDTO> techniqueMitigationCollectionToDtoCollection(Collection<TechniqueMitigation> techniqueMitigations);
 }

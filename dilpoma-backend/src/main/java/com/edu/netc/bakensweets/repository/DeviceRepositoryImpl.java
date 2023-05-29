@@ -80,8 +80,7 @@ public class DeviceRepositoryImpl extends BaseJdbcRepository implements DeviceRe
     public Collection<Device> filterDevices(String name, boolean order, int limit, int offset) {
         String request = String.format(filterRequest, order ? "ASC" : "DESC");
         return jdbcTemplate.query(
-                request,
-                new BeanPropertyRowMapper<>(Device.class), name, limit, offset
+                request, new BeanPropertyRowMapper<>(Device.class), name, limit, offset
         );
     }
 
