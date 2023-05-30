@@ -89,6 +89,12 @@ public class TechniqueMitigationController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
+    @DeleteMapping(value = "/mitigations/{id}")
+    public void deleteMitigationById(@PathVariable long id) {
+        techniqueMitigationService.deleteTechniqueMitigation(id, TechniqueMitigationEntity.MITIGATION);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
     @GetMapping(value = "/techniques/applicability/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Something went wrong"),
