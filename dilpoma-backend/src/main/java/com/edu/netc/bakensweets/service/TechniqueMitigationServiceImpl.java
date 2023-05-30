@@ -92,4 +92,23 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
         techniqueMitigationRepository.createApplicability(techniqueId, applicability);
         techniqueMitigationRepository.createTechniqueLinks(techniqueId, links);
     }
+
+    @Override
+    @Transactional
+    public void updateTechnique(long id, TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO) {
+        try {
+            techniqueMitigationRepository.deleteApplicabilitiesByTechniqueId(id);
+            techniqueMitigationRepository.deleteLinksByTechniqueId(id);
+            TechniqueMitigation technique = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
+            technique.setId(id);
+            techniqueMitigationRepository.updateTechniqueMitigation(technique, TechniqueMitigationEntity.TECHNIQUE);
+            List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());
+            Applicability applicability = techniqueMitigationMapper.applicablityDTOToApplicability(applicabilityDTO);
+            techniqueMitigationRepository.createApplicability(id, applicability);
+            techniqueMitigationRepository.createTechniqueLinks(id, links);
+
+        } catch (DataAccessException e) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Technique with id %s not found.", id));
+        }
+    }
 }

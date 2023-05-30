@@ -26,4 +26,10 @@ public interface TechniqueMitigationRepository {
 
     void createApplicability(long techniqueId, Applicability applicability);
 
+    boolean updateTechniqueMitigation(TechniqueMitigation techniqueMitigation, TechniqueMitigationEntity entity);
+
+    void deleteApplicabilitiesByTechniqueId(long id);
+
+    void deleteLinksByTechniqueId(long id);
+
 }

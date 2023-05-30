@@ -106,4 +106,11 @@ public class TechniqueMitigationController {
         techniqueMitigationService.createTechnique(techniqueApplicabilityWithLinksDTO.getTechniqueWithLinks(),
                 techniqueApplicabilityWithLinksDTO.getApplicability());
     }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PutMapping(value = "/techniques/{id}")
+    public void updateTechnique(@PathVariable long id, @RequestBody @Valid TechniqueApplicabilityWithLinksDTO techniqueApplicabilityWithLinksDTO) {
+        techniqueMitigationService.updateTechnique(id, techniqueApplicabilityWithLinksDTO.getTechniqueWithLinks(),
+                techniqueApplicabilityWithLinksDTO.getApplicability());
+    }
 }

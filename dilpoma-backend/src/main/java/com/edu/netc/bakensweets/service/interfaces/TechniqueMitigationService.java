@@ -18,4 +18,6 @@ public interface TechniqueMitigationService {
     ApplicabilityDTO getApplicabilityByTechniqueId(Long id);
 
     void createTechnique(TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO);
+
+    void updateTechnique(long id, TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO);
 }

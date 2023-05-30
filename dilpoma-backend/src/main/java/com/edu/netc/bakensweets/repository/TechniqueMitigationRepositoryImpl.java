@@ -1,8 +1,6 @@
 package com.edu.netc.bakensweets.repository;
 
-import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
 import com.edu.netc.bakensweets.model.Applicability;
-import com.edu.netc.bakensweets.model.Device;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 import com.edu.netc.bakensweets.repository.interfaces.TechniqueMitigationRepository;
@@ -50,6 +48,15 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
 
     @Value("${sql.techniqueMitigation.linkTechniqueMitigation}")
     private String linkTechniqueMitigationRequest;
+
+    @Value("${sql.techniqueMitigation.deleteApplicabilitiesByTechniqueId}")
+    private String deleteApplicabilitiesByTechniqueId;
+
+    @Value("${sql.techniqueMitigation.deleteLinksByTechniqueId}")
+    private String deleteLinksByTechniqueId;
+
+    @Value("${sql.techniqueMitigation.updateTechniqueMitigation}")
+    private String updateTechniqueMitigation;
 
     public TechniqueMitigationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -152,10 +159,19 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     }
 
 
-//    @Override
-//    public boolean updateTechnique(Device device) {
-//        return this.jdbcTemplate.update(updateDeviceRequest, device.getName(), device.getOs(), device.getOsMinVersion(),
-//                device.getOsMaxVersion(), device.getChipset(), device.getFingerprintScanner(), device.getFaceRecognition(),
-//                device.getId()) != 0;
-//    }
+    @Override
+    public boolean updateTechniqueMitigation(TechniqueMitigation techniqueMitigation, TechniqueMitigationEntity entity) {
+        String request = String.format(updateTechniqueMitigation, entity);
+        return this.jdbcTemplate.update(request, techniqueMitigation.getName(), techniqueMitigation.getDescription(), techniqueMitigation.getId()) != 0;
+    }
+
+    @Override
+    public void deleteApplicabilitiesByTechniqueId(long id) {
+        this.jdbcTemplate.update(deleteApplicabilitiesByTechniqueId, id);
+    }
+
+    @Override
+    public void deleteLinksByTechniqueId(long id) {
+        this.jdbcTemplate.update(deleteLinksByTechniqueId, id);
+    }
 }
