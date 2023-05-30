@@ -87,8 +87,8 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
         TechniqueMitigation technique = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
         List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());
         Applicability applicability = techniqueMitigationMapper.applicablityDTOToApplicability(applicabilityDTO);
-        techniqueMitigationRepository.createTechniqueMitigation(technique, TechniqueMitigationEntity.TECHNIQUE);
-        techniqueMitigationRepository.createApplicability(technique.getId(), applicability);
-        techniqueMitigationRepository.createTechniqueLinks(technique.getId(), links);
+        long techniqueId = techniqueMitigationRepository.createTechniqueMitigation(technique, TechniqueMitigationEntity.TECHNIQUE);
+        techniqueMitigationRepository.createApplicability(techniqueId, applicability);
+        techniqueMitigationRepository.createTechniqueLinks(techniqueId, links);
     }
 }
