@@ -16,4 +16,6 @@ public interface TechniqueMitigationService {
     void deleteTechniqueMitigation(Long id, TechniqueMitigationEntity entity);
 
     ApplicabilityDTO getApplicabilityByTechniqueId(Long id);
+
+    void createTechnique(TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO);
 }

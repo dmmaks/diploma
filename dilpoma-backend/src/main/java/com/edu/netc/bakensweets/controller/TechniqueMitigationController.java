@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @RestController
@@ -94,5 +95,15 @@ public class TechniqueMitigationController {
             @ApiResponse(code = 404, message = "Item not found")})
     public ApplicabilityDTO getApplicabilityByTechniqueId(@PathVariable long id) {
         return techniqueMitigationService.getApplicabilityByTechniqueId(id);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PostMapping(value = "/techniques")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Technique has been added"),
+            @ApiResponse(code = 400, message = "Something went wrong")})
+    public void createTechnique(@RequestBody @Valid TechniqueApplicabilityWithLinksDTO techniqueApplicabilityWithLinksDTO) {
+        techniqueMitigationService.createTechnique(techniqueApplicabilityWithLinksDTO.getTechniqueWithLinks(),
+                techniqueApplicabilityWithLinksDTO.getApplicability());
     }
 }

@@ -1,9 +1,6 @@
 package com.edu.netc.bakensweets.service;
 
-import com.edu.netc.bakensweets.dto.ApplicabilityDTO;
-import com.edu.netc.bakensweets.dto.PaginationDTO;
-import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
-import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
+import com.edu.netc.bakensweets.dto.*;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.TechniqueMitigationMapper;
 import com.edu.netc.bakensweets.model.Applicability;
@@ -83,5 +80,15 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
         } catch (DataAccessException e) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("%s with id %s not found.", entity, id));
         }
+    }
+
+    @Override
+    public void createTechnique(TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO) {
+        TechniqueMitigation technique = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
+        List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());
+        Applicability applicability = techniqueMitigationMapper.applicablityDTOToApplicability(applicabilityDTO);
+        techniqueMitigationRepository.createTechniqueMitigation(technique, TechniqueMitigationEntity.TECHNIQUE);
+        techniqueMitigationRepository.createApplicability(technique.getId(), applicability);
+        techniqueMitigationRepository.createTechniqueLinks(technique.getId(), links);
     }
 }
