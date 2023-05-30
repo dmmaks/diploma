@@ -132,28 +132,33 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     @Override
     @Transactional
     public void createApplicability(long techniqueId, Applicability applicability) {
-        if (applicability.getOs() != null) {
+        if (!applicability.getOs().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "os", applicability.getOs());
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
-        if (applicability.getOsMinVersion() != null) {
+        if (!applicability.getOsMinVersion().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "os_min_version", applicability.getOsMinVersion());
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
-        if (applicability.getOsMaxVersion() != null) {
+        if (!applicability.getOsMaxVersion().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "os_max_version", applicability.getOsMaxVersion());
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
-        if (applicability.getChipset() != null) {
+        if (!applicability.getChipset().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "chipset", applicability.getChipset());
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
-        if (applicability.getFingerprintScanner() != null) {
+        if (!applicability.getFingerprintScanner().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "fingerprint_scanner", applicability.getFingerprintScanner());
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
-        if (applicability.getFaceRecognition() != null) {
+        if (!applicability.getFaceRecognition().isEmpty()) {
             long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, "face_recognition", applicability.getFaceRecognition());
+            jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
+        }
+        if (applicability.getOs().isEmpty() && applicability.getOsMinVersion().isEmpty() && applicability.getOsMaxVersion().isEmpty()
+        && applicability.getChipset().isEmpty() && applicability.getFingerprintScanner().isEmpty() && applicability.getFaceRecognition().isEmpty()) {
+            long applicabilityId = jdbcTemplate.queryForObject(createApplicabilityRequest, Long.class, null, null);
             jdbcTemplate.update(linkTechniqueApplicabilityRequest, techniqueId, applicabilityId);
         }
     }
