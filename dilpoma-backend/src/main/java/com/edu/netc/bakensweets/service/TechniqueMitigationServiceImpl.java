@@ -83,6 +83,7 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
     }
 
     @Override
+    @Transactional
     public void createTechnique(TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO) {
         TechniqueMitigation technique = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
         List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());

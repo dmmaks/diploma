@@ -46,10 +46,10 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     private String createApplicabilityRequest;
 
     @Value("${sql.techniqueMitigation.linkTechniqueApplicability}")
-    private String linkTechniqueMitigationRequest;
+    private String linkTechniqueApplicabilityRequest;
 
     @Value("${sql.techniqueMitigation.linkTechniqueMitigation}")
-    private String linkTechniqueApplicabilityRequest;
+    private String linkTechniqueMitigationRequest;
 
     public TechniqueMitigationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
@@ -111,8 +111,8 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
         this.jdbcTemplate.batchUpdate(linkTechniqueMitigationRequest, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setLong(2, techniqueId);
-                ps.setLong(3, mitigations.get(i).getId());
+                ps.setLong(1, techniqueId);
+                ps.setLong(2, mitigations.get(i).getId());
             }
 
             @Override
