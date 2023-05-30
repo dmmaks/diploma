@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TechniqueMitigation {
-
     private long id;
     private String name;
     private String description;

@@ -11,4 +11,6 @@ public interface TechniqueMitigationService {
     PaginationDTO<TechniqueMitigationDTO> getFilteredTechniquesMitigations(String name, int limit, boolean order, int currentPage, TechniqueMitigationEntity entity);
 
     TechniqueMitigationWithLinksDTO getTechniqueMitigationWithLinksById(Long id, TechniqueMitigationEntity entity);
+
+    void deleteTechniqueMitigation(Long id, TechniqueMitigationEntity entity);
 }

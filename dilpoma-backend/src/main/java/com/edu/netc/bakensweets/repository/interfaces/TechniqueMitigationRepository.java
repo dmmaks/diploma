@@ -14,4 +14,6 @@ public interface TechniqueMitigationRepository {
     int countFilteredTechniquesMitigations(String name, TechniqueMitigationEntity entity);
 
     Collection<TechniqueMitigation> findLinksByIdAndEntity(Long id, TechniqueMitigationEntity entity);
+
+    boolean deleteByIdAndEntity(Long id, TechniqueMitigationEntity entity);
 }

@@ -1,7 +1,9 @@
 package com.edu.netc.bakensweets.mapper;
 
+import com.edu.netc.bakensweets.dto.ApplicabilityDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
+import com.edu.netc.bakensweets.model.Applicability;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,6 +21,7 @@ public interface TechniqueMitigationMapper {
             @Mapping(target="description", source="techniqueMitigationDTO.description")
     })
     TechniqueMitigation techniqueMitigationDTOToGTechniqueMitigation(TechniqueMitigationDTO techniqueMitigationDTO);
+
     @Mappings({
             @Mapping(target="id", source="techniqueMitigation.id"),
             @Mapping(target="name", source="techniqueMitigation.name"),
@@ -39,4 +42,14 @@ public interface TechniqueMitigationMapper {
             @Mapping(target="description", source="techniqueMitigations.description")
     })
     Collection<TechniqueMitigationDTO> techniqueMitigationCollectionToDtoCollection(Collection<TechniqueMitigation> techniqueMitigations);
+
+    @Mappings({
+            @Mapping(target = "os", source = "applicability.os"),
+            @Mapping(target = "osMinVersion", source = "applicability.osMinVersion"),
+            @Mapping(target = "osMaxVersion", source = "applicability.osMaxVersion"),
+            @Mapping(target = "chipset", source = "applicability.chipset"),
+            @Mapping(target = "fingerprintScanner", source = "applicability.fingerprintScanner"),
+            @Mapping(target = "faceRecognition", source = "applicability.faceRecognition")
+    })
+    ApplicabilityDTO applicablityToApplicabilityDTO(Applicability applicability);
 }

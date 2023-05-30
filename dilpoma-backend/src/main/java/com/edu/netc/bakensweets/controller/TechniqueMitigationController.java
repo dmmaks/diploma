@@ -83,4 +83,10 @@ public class TechniqueMitigationController {
     public TechniqueMitigationWithLinksDTO getMitigationWithLinksById(@PathVariable long id) {
         return techniqueMitigationService.getTechniqueMitigationWithLinksById(id, TechniqueMitigationEntity.MITIGATION);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
+    @DeleteMapping(value = "/techniques/{id}")
+    public void deleteTechniqueById(@PathVariable long id) {
+        techniqueMitigationService.deleteTechniqueMitigation(id, TechniqueMitigationEntity.TECHNIQUE);
+    }
 }

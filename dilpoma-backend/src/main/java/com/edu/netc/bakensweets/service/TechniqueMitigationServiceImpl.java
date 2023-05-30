@@ -10,6 +10,7 @@ import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 import com.edu.netc.bakensweets.repository.interfaces.TechniqueMitigationRepository;
 import com.edu.netc.bakensweets.service.interfaces.TechniqueMitigationService;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,15 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
             return mainDto;
         } catch (EmptyResultDataAccessException ex) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("%s with id %s not found.", entity.toString(), id));
+        }
+    }
+
+    @Override
+    public void deleteTechniqueMitigation(Long id, TechniqueMitigationEntity entity) {
+        try {
+            techniqueMitigationRepository.deleteByIdAndEntity(id, entity);
+        } catch (DataAccessException e) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("%s with id %s not found.", entity, id));
         }
     }
 }

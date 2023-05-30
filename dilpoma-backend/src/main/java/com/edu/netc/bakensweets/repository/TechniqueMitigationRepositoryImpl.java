@@ -26,6 +26,9 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     @Value("${sql.techniqueMitigation.findLinksByIdAndEntity}")
     private String findLinksByIdAndEntityRequest;
 
+    @Value("${sql.techniqueMitigation.delete}")
+    private String deleteRequest;
+
     public TechniqueMitigationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
@@ -62,5 +65,11 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     public int countFilteredTechniquesMitigations(String name, TechniqueMitigationEntity entity) {
         String request = String.format(countFilteredRequest, entity);
         return jdbcTemplate.queryForObject(request, Integer.class, name);
+    }
+
+    @Override
+    public boolean deleteByIdAndEntity(Long id, TechniqueMitigationEntity entity) {
+        String request = String.format(deleteRequest, entity);
+        return this.jdbcTemplate.update(request, id) != 0;
     }
 }
