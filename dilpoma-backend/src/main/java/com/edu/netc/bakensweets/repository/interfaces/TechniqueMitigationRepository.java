@@ -1,5 +1,6 @@
 package com.edu.netc.bakensweets.repository.interfaces;
 
+import com.edu.netc.bakensweets.model.Applicability;
 import com.edu.netc.bakensweets.model.Device;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
@@ -16,4 +17,7 @@ public interface TechniqueMitigationRepository {
     Collection<TechniqueMitigation> findLinksByIdAndEntity(Long id, TechniqueMitigationEntity entity);
 
     boolean deleteByIdAndEntity(Long id, TechniqueMitigationEntity entity);
+
+    Applicability getApplicabilityByTechniqueId(Long id);
+
 }

@@ -1,5 +1,6 @@
 package com.edu.netc.bakensweets.service.interfaces;
 
+import com.edu.netc.bakensweets.dto.ApplicabilityDTO;
 import com.edu.netc.bakensweets.dto.PaginationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
@@ -13,4 +14,6 @@ public interface TechniqueMitigationService {
     TechniqueMitigationWithLinksDTO getTechniqueMitigationWithLinksById(Long id, TechniqueMitigationEntity entity);
 
     void deleteTechniqueMitigation(Long id, TechniqueMitigationEntity entity);
+
+    ApplicabilityDTO getApplicabilityByTechniqueId(Long id);
 }

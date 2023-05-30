@@ -1,9 +1,6 @@
 package com.edu.netc.bakensweets.controller;
 
-import com.edu.netc.bakensweets.dto.DeviceDTO;
-import com.edu.netc.bakensweets.dto.PaginationDTO;
-import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
-import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
+import com.edu.netc.bakensweets.dto.*;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 import com.edu.netc.bakensweets.service.interfaces.TechniqueMitigationService;
 import io.swagger.annotations.ApiResponse;
@@ -88,5 +85,14 @@ public class TechniqueMitigationController {
     @DeleteMapping(value = "/techniques/{id}")
     public void deleteTechniqueById(@PathVariable long id) {
         techniqueMitigationService.deleteTechniqueMitigation(id, TechniqueMitigationEntity.TECHNIQUE);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_MODERATOR')")
+    @GetMapping(value = "/techniques/applicability/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Something went wrong"),
+            @ApiResponse(code = 404, message = "Item not found")})
+    public ApplicabilityDTO getApplicabilityByTechniqueId(@PathVariable long id) {
+        return techniqueMitigationService.getApplicabilityByTechniqueId(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.edu.netc.bakensweets.service;
 
+import com.edu.netc.bakensweets.dto.ApplicabilityDTO;
 import com.edu.netc.bakensweets.dto.PaginationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
@@ -30,6 +31,15 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
             return techniqueMitigationMapper.techniqueMitigationToTechniqueMitigationDTO(techniqueMitigationRepository.findByIdAndEntity(id, entity));
         } catch (EmptyResultDataAccessException ex) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("%s with id %s not found.", entity.toString(), id));
+        }
+    }
+
+    @Override
+    public ApplicabilityDTO getApplicabilityByTechniqueId(Long id) {
+        try {
+            return techniqueMitigationMapper.applicablityToApplicabilityDTO(techniqueMitigationRepository.getApplicabilityByTechniqueId(id));
+        } catch (EmptyResultDataAccessException ex) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Technique with id %s not found.", id));
         }
     }
 

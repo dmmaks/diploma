@@ -1,5 +1,6 @@
 package com.edu.netc.bakensweets.repository;
 
+import com.edu.netc.bakensweets.model.Applicability;
 import com.edu.netc.bakensweets.model.Device;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
@@ -29,6 +30,9 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     @Value("${sql.techniqueMitigation.delete}")
     private String deleteRequest;
 
+    @Value("${sql.techniqueMitigation.getApplicabilitiesForTechnique}")
+    private String getApplicabilityRequest;
+
     public TechniqueMitigationRepositoryImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
@@ -38,6 +42,11 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
         String request = String.format(findByIdRequest, entity.name());
         return jdbcTemplate.queryForObject(
                 request, new BeanPropertyRowMapper<>(TechniqueMitigation.class), id);
+    }
+
+    public Applicability getApplicabilityByTechniqueId(Long id) {
+        return jdbcTemplate.queryForObject(
+                getApplicabilityRequest, new BeanPropertyRowMapper<>(Applicability.class), id, id, id, id, id, id);
     }
 
     @Override
