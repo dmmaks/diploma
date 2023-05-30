@@ -6,6 +6,7 @@ import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface TechniqueMitigationRepository {
     TechniqueMitigation findByIdAndEntity(Long id, TechniqueMitigationEntity entity);
@@ -18,6 +19,6 @@ public interface TechniqueMitigationRepository {
 
     boolean deleteByIdAndEntity(Long id, TechniqueMitigationEntity entity);
 
-    Applicability getApplicabilityByTechniqueId(Long id);
+    List<Applicability> getApplicabilityByTechniqueId(Long id);
 
 }

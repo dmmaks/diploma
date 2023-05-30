@@ -6,6 +6,7 @@ import com.edu.netc.bakensweets.dto.TechniqueMitigationDTO;
 import com.edu.netc.bakensweets.dto.TechniqueMitigationWithLinksDTO;
 import com.edu.netc.bakensweets.exception.CustomException;
 import com.edu.netc.bakensweets.mapper.TechniqueMitigationMapper;
+import com.edu.netc.bakensweets.model.Applicability;
 import com.edu.netc.bakensweets.model.TechniqueMitigation;
 import com.edu.netc.bakensweets.model.TechniqueMitigationEntity;
 import com.edu.netc.bakensweets.repository.interfaces.TechniqueMitigationRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -37,7 +39,11 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
     @Override
     public ApplicabilityDTO getApplicabilityByTechniqueId(Long id) {
         try {
-            return techniqueMitigationMapper.applicablityToApplicabilityDTO(techniqueMitigationRepository.getApplicabilityByTechniqueId(id));
+            List<Applicability> applicabilityList = techniqueMitigationRepository.getApplicabilityByTechniqueId(id);
+            if (applicabilityList.isEmpty()) {
+                return new ApplicabilityDTO();
+            }
+            return techniqueMitigationMapper.applicablityToApplicabilityDTO(applicabilityList.get(0));
         } catch (EmptyResultDataAccessException ex) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Technique with id %s not found.", id));
         }

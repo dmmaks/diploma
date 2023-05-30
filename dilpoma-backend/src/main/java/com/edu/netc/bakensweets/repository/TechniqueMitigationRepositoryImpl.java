@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implements TechniqueMitigationRepository {
@@ -44,8 +45,8 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
                 request, new BeanPropertyRowMapper<>(TechniqueMitigation.class), id);
     }
 
-    public Applicability getApplicabilityByTechniqueId(Long id) {
-        return jdbcTemplate.queryForObject(
+    public List<Applicability> getApplicabilityByTechniqueId(Long id) {
+        return jdbcTemplate.query(
                 getApplicabilityRequest, new BeanPropertyRowMapper<>(Applicability.class), id, id, id, id, id, id);
     }
 
