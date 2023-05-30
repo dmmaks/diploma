@@ -52,8 +52,8 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     @Value("${sql.techniqueMitigation.deleteApplicabilitiesByTechniqueId}")
     private String deleteApplicabilitiesByTechniqueId;
 
-    @Value("${sql.techniqueMitigation.deleteLinksByTechniqueId}")
-    private String deleteLinksByTechniqueId;
+    @Value("${sql.techniqueMitigation.deleteLinksByTechniqueMitigationId}")
+    private String deleteLinksByTechniqueMitigationId;
 
     @Value("${sql.techniqueMitigation.updateTechniqueMitigation}")
     private String updateTechniqueMitigation;
@@ -130,6 +130,22 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     }
 
     @Override
+    public void createMitigationLinks(long mitigationId, List<TechniqueMitigation> techniques) {
+        this.jdbcTemplate.batchUpdate(linkTechniqueMitigationRequest, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, techniques.get(i).getId());
+                ps.setLong(2, mitigationId);
+            }
+
+            @Override
+            public int getBatchSize() {
+                return techniques.size();
+            }
+        });
+    }
+
+    @Override
     @Transactional
     public void createApplicability(long techniqueId, Applicability applicability) {
         if (!applicability.getOs().isEmpty()) {
@@ -176,7 +192,8 @@ public class TechniqueMitigationRepositoryImpl extends BaseJdbcRepository implem
     }
 
     @Override
-    public void deleteLinksByTechniqueId(long id) {
-        this.jdbcTemplate.update(deleteLinksByTechniqueId, id);
+    public void deleteLinksByTechniqueMitigationId(long id, TechniqueMitigationEntity entity) {
+        String request = String.format(deleteLinksByTechniqueMitigationId, entity);
+        this.jdbcTemplate.update(request, id);
     }
 }

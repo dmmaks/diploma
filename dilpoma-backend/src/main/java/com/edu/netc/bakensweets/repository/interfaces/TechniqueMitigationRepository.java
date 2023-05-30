@@ -24,12 +24,14 @@ public interface TechniqueMitigationRepository {
 
     void createTechniqueLinks(long techniqueId, List<TechniqueMitigation> mitigations);
 
+    void createMitigationLinks(long mitigationId, List<TechniqueMitigation> techniques);
+
     void createApplicability(long techniqueId, Applicability applicability);
 
     boolean updateTechniqueMitigation(TechniqueMitigation techniqueMitigation, TechniqueMitigationEntity entity);
 
     void deleteApplicabilitiesByTechniqueId(long id);
 
-    void deleteLinksByTechniqueId(long id);
+    void deleteLinksByTechniqueMitigationId(long id, TechniqueMitigationEntity entity);
 
 }

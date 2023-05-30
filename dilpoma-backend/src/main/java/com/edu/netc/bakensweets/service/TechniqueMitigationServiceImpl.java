@@ -98,7 +98,7 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
     public void updateTechnique(long id, TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO, ApplicabilityDTO applicabilityDTO) {
         try {
             techniqueMitigationRepository.deleteApplicabilitiesByTechniqueId(id);
-            techniqueMitigationRepository.deleteLinksByTechniqueId(id);
+            techniqueMitigationRepository.deleteLinksByTechniqueMitigationId(id, TechniqueMitigationEntity.TECHNIQUE);
             TechniqueMitigation technique = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
             technique.setId(id);
             techniqueMitigationRepository.updateTechniqueMitigation(technique, TechniqueMitigationEntity.TECHNIQUE);
@@ -106,6 +106,31 @@ public class TechniqueMitigationServiceImpl implements TechniqueMitigationServic
             Applicability applicability = techniqueMitigationMapper.applicablityDTOToApplicability(applicabilityDTO);
             techniqueMitigationRepository.createApplicability(id, applicability);
             techniqueMitigationRepository.createTechniqueLinks(id, links);
+
+        } catch (DataAccessException e) {
+            throw new CustomException(HttpStatus.NOT_FOUND, String.format("Technique with id %s not found.", id));
+        }
+    }
+
+    @Override
+    @Transactional
+    public void createMitigation(TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO) {
+        TechniqueMitigation mitigation = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
+        List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());
+        long mitigationId = techniqueMitigationRepository.createTechniqueMitigation(mitigation, TechniqueMitigationEntity.MITIGATION);
+        techniqueMitigationRepository.createMitigationLinks(mitigationId, links);
+    }
+
+    @Override
+    @Transactional
+    public void updateMitigation(long id, TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO) {
+        try {
+            techniqueMitigationRepository.deleteLinksByTechniqueMitigationId(id, TechniqueMitigationEntity.MITIGATION);
+            TechniqueMitigation mitigation = techniqueMitigationMapper.techniqueMitigationWithLinksDTOToTechniqueMitigation(techniqueMitigationWithLinksDTO);
+            mitigation.setId(id);
+            techniqueMitigationRepository.updateTechniqueMitigation(mitigation, TechniqueMitigationEntity.MITIGATION);
+            List<TechniqueMitigation> links = techniqueMitigationMapper.dtoCollectionTotechniqueMitigationCollection(techniqueMitigationWithLinksDTO.getLinks());
+            techniqueMitigationRepository.createMitigationLinks(id, links);
 
         } catch (DataAccessException e) {
             throw new CustomException(HttpStatus.NOT_FOUND, String.format("Technique with id %s not found.", id));

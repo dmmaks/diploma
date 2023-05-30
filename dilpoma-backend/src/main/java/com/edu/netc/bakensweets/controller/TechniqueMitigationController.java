@@ -113,4 +113,19 @@ public class TechniqueMitigationController {
         techniqueMitigationService.updateTechnique(id, techniqueApplicabilityWithLinksDTO.getTechniqueWithLinks(),
                 techniqueApplicabilityWithLinksDTO.getApplicability());
     }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PostMapping(value = "/mitigations")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Technique has been added"),
+            @ApiResponse(code = 400, message = "Something went wrong")})
+    public void createMitigation(@RequestBody @Valid TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO) {
+        techniqueMitigationService.createMitigation(techniqueMitigationWithLinksDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PutMapping(value = "/mitigations/{id}")
+    public void updateMitigation(@PathVariable long id, @RequestBody @Valid TechniqueMitigationWithLinksDTO techniqueMitigationWithLinksDTO) {
+        techniqueMitigationService.updateMitigation(id, techniqueMitigationWithLinksDTO);
+    }
 }
