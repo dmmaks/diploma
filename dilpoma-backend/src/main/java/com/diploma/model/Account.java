@@ -13,6 +13,7 @@ public class Account {
     private String lastName;
     private LocalDate birthDate;
     private Gender gender;
+    private String imgUrl;
     private AccountRole accountRole;
     private boolean status;
 }

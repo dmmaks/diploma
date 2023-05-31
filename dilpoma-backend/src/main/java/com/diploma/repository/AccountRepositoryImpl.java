@@ -53,7 +53,7 @@ public class AccountRepositoryImpl extends BaseJdbcRepository implements Account
     @Override
     public boolean update(Account account) {
         jdbcTemplate.update(sqlUpdateAccData, account.getFirstName(), account.getLastName(),
-                account.getBirthDate(), account.getGender().name(), account.getId());
+                account.getBirthDate(), account.getImgUrl(), account.getGender().name(), account.getId());
         return true;
     }
 
