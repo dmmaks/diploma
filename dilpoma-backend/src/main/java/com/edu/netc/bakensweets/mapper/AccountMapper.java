@@ -27,8 +27,7 @@ public interface AccountMapper {
             @Mapping(target="firstName", source="infoDto.firstName"),
             @Mapping(target="lastName", source="infoDto.lastName"),
             @Mapping(target = "birthDate", source = "infoDto.birthDate"),
-            @Mapping(target = "gender", source = "infoDto.gender"),
-            @Mapping(target = "imgUrl", source = "infoDto.imgUrl")
+            @Mapping(target = "gender", source = "infoDto.gender")
     })
     Account accountPersonalInfoDTOtoAccounts(AccountPersonalInfoDTO infoDto);
 
@@ -38,7 +37,6 @@ public interface AccountMapper {
             @Mapping(target="lastName", source="account.lastName"),
             @Mapping(target = "birthDate", source = "account.birthDate"),
             @Mapping(target = "gender", source = "account.gender"),
-            @Mapping(target = "imgUrl", source = "account.imgUrl"),
             @Mapping(target = "status", source = "account.status")
     })
     AccountPersonalInfoDTO accountToAccountPersonalInfoDto(Account account);
@@ -58,16 +56,14 @@ public interface AccountMapper {
             @Mapping(target="firstName", source="updateDTO.firstName"),
             @Mapping(target="lastName", source="updateDTO.lastName"),
             @Mapping(target = "birthDate", source = "updateDTO.birthDate", dateFormat = "dd/MM/yyyy"),
-            @Mapping(target = "gender", source = "updateDTO.gender"),
-            @Mapping(target = "imgUrl", source = "updateDTO.imgUrl")
+            @Mapping(target = "gender", source = "updateDTO.gender")
     })
     Account updateAccountDTOtoAccount(UpdateAccountDTO updateDTO);
     @Mappings({
             @Mapping(target="firstName", source="entity.firstName"),
             @Mapping(target="lastName", source="entity.lastName"),
             @Mapping(target = "birthDate", source = "entity.birthDate", dateFormat = "dd/MM/yyyy"),
-            @Mapping(target = "gender", source = "entity.gender"),
-            @Mapping(target = "imgUrl", source = "entity.imgUrl")
+            @Mapping(target = "gender", source = "entity.gender")
     })
     UpdateAccountDTO accountToUpdateAccountDTO(Account entity);
 }
